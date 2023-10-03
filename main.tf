@@ -11,9 +11,6 @@ module "RDS-Module" {
   alb_a_record              = var.alb_a_record
 
 
-  lifecycle {
-    prevent_destroy = true
-  }
 }
 
 module "S3-Module" {
@@ -23,7 +20,4 @@ module "S3-Module" {
   bucket_name  = var.bucket_name
   key          = module.RDS-Module.my_key_pair
 
-  lifecycle {
-    prevent_destroy = true
-  }
 }
