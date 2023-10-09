@@ -5,20 +5,12 @@ resource "aws_launch_template" "my_launch_template" {
   instance_type          = var.instance_type
   key_name               = aws_key_pair.my_key_pair.key_name
   vpc_security_group_ids = [module.VPC-Module.server_sg]
-  user_data              = <<-EOF
-              #!/bin/bash
-              sudo apt-get -y update
-              apt install apache2 -y
-              systemctl start apache2
-              echo "Server is online." > /var/www/html/index.html
-              systemctl restart apache2
-              sudo apt install nodejs
-              sudo apt install npm
-              EOF
+  user_data = filebase64("E:\\Devops\\Mylo\\RDS-Module\\userdata.txt")
   lifecycle {
     create_before_destroy = true
   }
 }
+
 # Autoscaling Group
 resource "aws_autoscaling_group" "my_autoscaling_group" {
   name                      = "${var.project_name}-autoscaling-group"
